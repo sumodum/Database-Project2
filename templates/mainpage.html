@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Query Optimizer</title>
+</head>
+<body>
+    <header>
+        <h1>Group 11's SQL Query Optimizer</h1>
+    </header>
+    <!--Main divider-->
+    <div class="row">
+        <div class="column">
+            <form method="POST" action="">
+
+            <!--Row to select Database-->
+            <div class="row">
+                <h3>Please select database:
+                    <select name="database" action="" >
+                        {% for db in DBs %}
+                            {% if db == selected %}
+                            <option value="{{db}}" selected hidden>{{db}}</option>
+                            {% endif %}
+                        <option value="{{db}}">{{db}}</option>
+                        {% endfor %}
+                        <input type="submit"></input>
+                    </select>
+                </h3>
+
+
+            </div>
+            <!--Row to see selected Database schema-->
+            <!--Display table names and column names of databse-->
+            <div class="row">
+                {% if schema == {}%}
+                <p>Submit to get selected database schema</p>
+                {% else %}
+                <h3>Schema of selected database: {{selected}}</h3>
+                {% for key, values in schema.items() %}
+                <h3>{{key}}</h3>
+                    <p>
+                        {% for col in values %}
+                        {{col}} ,&nbsp
+                        {% endfor%}
+                        {% endfor %}
+                        {% endif %}
+                    </p>
+            </div>
+
+                <!--Row to input SQL Query-->
+                <div class="row">
+                    <h3>Please enter your SQL Query:</h3>
+                    <textarea name="query" placeholder="Your query..."></textarea>
+                    <br><br/>
+                    <button class="queryplanbtn" type="submit" style="float: right;">Get Query Plan</button>
+                </div>
+            </form>
+        </div>
+
+        <!--Column for optimal query plan-->
+        <div class="column">
+            <h3>Optimal Query Plan</h3>
+            <h5>QUERY : {{que}} </h5>
+            {% if ap_query == {"Please enter the right SQL query!" : None} %}
+                <p1>Please enter the right SQL query!</p1>
+            {% else %}
+                <p style="white-space: pre-line">{{ p_query }}</p>
+            {% endif %}
+        </div>
+
+        <!--Column for alternative query plans-->
+        <div class="column">
+            <h3>Alternative Query Plans</h3>
+            <!--Will need a for loop to loop through all AQP dictionary-->
+            <h5>QUERY : {{que}} </h5>
+            {% if ap_query == {"Please enter the right SQL query!" : None} %}
+                <p1>Please enter the right SQL query!</p1>
+            {% else %}
+                {% for key, values in ap_query.items() %}
+                <h5>{{key}} :</h5>
+                <p style="white-space: pre-line">{{values}}</p>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+
+    </div>
+</body>
+</html>
+
+<!--CSS Styling-->
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,300&display=swap');
+    body{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        background-color: whitesmoke;
+        margin: 0;
+        padding: 0;
+    }
+
+    header{
+        background-image: linear-gradient(lightgreen, lightblue);
+        padding: 50px;
+        text-align: center;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 30px;
+    }
+
+    h1{
+        margin-block-start: 1px;
+        margin-block-end: 1px;
+    }
+
+    *.column {
+        float: left;
+        width: 30.5%;
+        margin-top: 10px;
+        margin-right:7px;
+        margin-left:20px;
+        padding: 7.5px;
+        height: 700px;
+        background-color:white;
+        border-color: black;
+        overflow-y: scroll;
+    }
+    textarea{
+        display: block;
+        margin : auto;
+        vertical-align: top;
+        width: 400px;
+        height: 170px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+    }
+    h3{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        margin-left: 10px;
+    }
+    h5{
+        width: 320px;
+        padding: 10px;
+    }
+    p{
+        color:dimgrey;
+        margin-left: 10px;
+        font-weight: 500;
+    }
+
+    p1{
+        font-style: italic;
+        margin-left: 10px;
+    }
+
+    select{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        padding-left: 10px;
+        padding-right: 40px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-radius:3px;
+    }
+
+    select:focus{
+        outline:none;
+    }
+
+    .queryplanbtn{
+        background-color: rgb(34, 174, 88);
+        border: 1px;
+        border-radius: 3px;
+        padding: 10px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        color: white;
+    }
+    
+    .queryplanbtn:hover{
+        color: black; 
+        background-color: rgb(34, 174, 88, .5); 
+        transition: background-color .5s;
+    }
+
+    .queryplanbtn:active{
+        background-color: rgb(34, 174, 88, .5);
+        box-shadow: 0 2px #666;
+        transform: translateY(1px);
+    }
+
+    input[type=submit]{
+        float: right;
+        border-radius: 5px; 
+        border: 1px;
+        padding: 10px;
+        background-color: rgb(34, 174, 88); 
+        color: white;
+    }
+
+    input[type=submit]:hover{
+        background-color: rgb(34, 174, 88, .5); 
+        transition: background-color .5s;
+        color: black;
+    }
+
+    input[type=submit]:active{
+        background-color: rgb(34, 174, 88, .5);
+        box-shadow: 0 2px #666;
+        transform: translateY(1px);
+    }
+
+</style>

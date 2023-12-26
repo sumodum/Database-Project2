@@ -1,0 +1,16 @@
+{
+  "TPC-H": {
+    "host": "ec2-18-215-41-121.compute-1.amazonaws.com",
+    "database": "d6kbte63gmo8od",
+    "user": "cexnpxrplobezy",
+    "password": "4649116bc8b22d9beaa9061d46010eb1058d625685495d5a2084b12a713f7fe1",
+    "port": "5432"
+  },
+  "IMDB": {
+    "host": "ec2-54-163-34-107.compute-1.amazonaws.com",
+    "database": "d53bimrbn8tguo",
+    "user": "zjmruztvuhtmyt",
+    "port": "5432",
+    "password": "ee47705719ff563e609e8cb6108851e3faa071eb189a822880ce032b940a38b5"
+  }
+}
